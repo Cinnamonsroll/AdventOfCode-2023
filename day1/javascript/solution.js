@@ -1,5 +1,5 @@
 const { readFileSync } = require("fs");
-const input = readFileSync("./input.txt", "utf-8");
+const input = readFileSync("../input.txt", "utf-8");
 const sum = input
     .split('\n')
     .map((line) => {
