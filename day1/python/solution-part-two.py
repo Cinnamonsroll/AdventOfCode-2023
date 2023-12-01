@@ -1,7 +1,8 @@
-with open("input.txt", "r", encoding="utf-8") as file:
-    input_data = file.read()
+import re
 
-nums = {
+
+digit_mapping = {
+    "zero": 0,
     "one": 1,
     "two": 2,
     "three": 3,
@@ -10,16 +11,30 @@ nums = {
     "six": 6,
     "seven": 7,
     "eight": 8,
-    "nine": 9
+    "nine": 9,
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 3,
+    "4": 4,
+    "5": 5,
+    "6": 6,
+    "7": 7,
+    "8": 8,
+    "9": 9,
 }
 
-data = sum(
-    int(str(digits[0]) + str(digits[-1]))
-    for line in input_data.split("\n")
-    for index, char in enumerate(line)
-    if (remaining_substring := line[index:]).startswith(word := next((word for word, value in nums.items() if remaining_substring.startswith(word)), None))
-    or char.isdigit()
-    if (digits := [nums[word] if remaining_substring.startswith(word) else int(char) for word, value in nums.items()] + [int(char)])
-)
+with open("input.txt", "r") as file:
+
+    data = sum(
+        digit_mapping[
+            re.search("(" + "|".join(digit_mapping.keys()) + ")", line).group(1)
+        ]
+        * 10
+        + digit_mapping[
+            re.search("(?s:.*)(" + "|".join(digit_mapping.keys()) + ")", line).group(1)
+        ]
+        for line in file
+    )
 
 print(data)
